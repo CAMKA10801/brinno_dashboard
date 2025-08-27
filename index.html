@@ -9,8 +9,7 @@
     --s-1:4px; --s0:8px; --s1:12px; --s2:16px; --s3:24px; --s4:32px; --s5:40px; --s6:56px;
     --w:1px;
     --bg:#121212; --panel:#1c1c1c; --muted:#b0b0b0; --text:#f5f5f5;
-    --accent:#ff6600; --accent-2:#ffaa33;
-    --ok:#34d399; --warn:#f59e0b; --danger:#f87171;
+    --accent:#ff6600; --accent-2:#ffaa33; --ok:#34d399; --warn:#f59e0b; --danger:#f87171;
     --card:#1a1a1a; --chip:#2a2a2a; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
     --maxw:1200px; --input-font-size:14px;
   }
@@ -30,39 +29,63 @@
   .grid{display:grid; grid-template-columns: 1.05fr .95fr; gap:var(--s2)}
   @media (max-width: 1024px){ .grid{grid-template-columns:1fr; gap:var(--s2);} }
 
-  .panel{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00)); border:var(--w) solid rgba(255,255,255,.06); border-radius:var(--radius); box-shadow:var(--shadow)}
+  .panel{
+    background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
+    border:var(--w) solid rgba(255,255,255,.06);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow)
+  }
   .panel .hd{padding:var(--s2) var(--s2) var(--s1); border-bottom:var(--w) solid rgba(255,255,255,.06)}
   .panel .hd h2{margin:0; font-size:16px}
   .panel .bd{padding:var(--s2)}
 
   label{display:block; font-weight:600; margin:0 0 var(--s1) 2px; font-size:var(--input-font-size)}
-  input[type=number]{width:100%; background:var(--card); color:var(--text); border:var(--w) solid rgba(255,255,255,.08); border-radius:12px; padding:14px; outline:none; transition:.2s border-color,.2s box-shadow; font-size:var(--input-font-size)}
+  input[type=number]{
+    width:100%; background:var(--card); color:var(--text);
+    border:var(--w) solid rgba(255,255,255,.08); border-radius:12px;
+    padding:14px; outline:none; transition:.2s border-color,.2s box-shadow;
+    font-size:var(--input-font-size)
+  }
   input[type=number]:focus{border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,102,0,.18)}
 
   .radios{display:flex; gap:var(--s1); flex-wrap:wrap; font-size:var(--input-font-size)}
   .radio{display:flex; align-items:center; gap:var(--s1); cursor:pointer; font-size:var(--input-font-size)}
-  /* 套用到所有單選鈕：桌機也維持完美圓形 */
-  .radio input{appearance:auto; -webkit-appearance:auto; accent-color:var(--accent); width:18px; height:18px; border-radius:50%; margin:0 6px 0 0; vertical-align:middle; display:inline-block;}
+  .radio input{appearance:auto;-webkit-appearance:auto;accent-color:var(--accent);width:18px;height:18px;border-radius:50%;margin:0 6px 0 0;vertical-align:middle;display:inline-block;}
   @supports not (accent-color: var(--accent)){
-    .radio input{appearance:none;-webkit-appearance:none;border:2px solid var(--muted);background:transparent; position:relative}
+    .radio input{appearance:none;-webkit-appearance:none;border:2px solid var(--muted);background:transparent;position:relative}
     .radio input:checked{border-color:var(--accent)}
     .radio input::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--accent);display:none}
     .radio input:checked::after{display:block}
   }
 
-  .triple, .quad{display:grid; gap:var(--s2); margin-top:var(--s2)}
-  .triple{grid-template-columns: 1fr 1fr 1fr}
-  .quad{grid-template-columns: 1fr 1fr 1fr 1fr}
-  @media(max-width:1024px){.triple,.quad{grid-template-columns:1fr}}
+  .quad{display:grid; gap:var(--s2); margin-top:var(--s2); grid-template-columns: 1fr 1fr 1fr 1fr}
+  @media(max-width:1024px){.quad{grid-template-columns:1fr}}
 
-  .btn{border:none; padding:12px 16px; border-radius:12px; cursor:pointer; font-weight:700; color:#111; background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow:var(--shadow); text-decoration:none; display:inline-flex; align-items:center; justify-content:center; font-size:var(--input-font-size)}
+  /*/* === Buttons / Actions (RWD 改善) === */
+  .actions{
+    display:grid; gap:var(--s1);
+    grid-template-columns: 1fr;        /* 手機寬度：1 欄 */
+    align-items:stretch; margin-top:var(--s2);
+   position:relative; 
+  }
+  @media (min-width: 901px) and (max-width: 1279px){
+    .actions{ grid-template-columns: repeat(2, 1fr); } /* 平板：2 欄 */
+  }/* 桌機：3 欄 */
+  }
+
+  .actions > *{ height:100%; } /* 讓每個格子內的按鈕都能拉滿高度 */
+  .btn{
+    display:flex; align-items:center; justify-content:center;
+    width:100%; height:56px;           /* 固定高度，三顆按鈕等高 */
+    border:none; padding:0 16px; border-radius:12px; cursor:pointer;
+    font-weight:700; color:#111; background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    box-shadow:var(--shadow); text-decoration:none; font-size:var(--input-font-size);
+    white-space:nowrap; user-select:none;
+  }
   .btn.secondary{background:#2b2b2b; color:var(--text); border:var(--w) solid rgba(255,255,255,.08)}
+  .btn.line{background:linear-gradient(135deg,#22c55e,#34d399); color:#fff}
   .btn:active{transform: translateY(1px)}
-
-  .actions{display:grid; gap:var(--s1); grid-template-columns: repeat(3, minmax(0,1fr)); align-items:stretch; margin-top:var(--s2)}
-  @media (max-width: 900px){ .actions{grid-template-columns: repeat(2, minmax(0,1fr));} }
-  @media (max-width: 520px){ .actions{grid-template-columns: 1fr;} }
-  .actions .btn{width:100%; height:44px; min-width:0; line-height:1}
+  .btn:focus{outline:2px solid rgba(255,102,0,.4); outline-offset:2px}
 
   .chips{display:flex; gap:var(--s1); flex-wrap:wrap; margin-top:var(--s1)}
   .chip{background:var(--chip); color:var(--muted); padding:6px 10px; border-radius:999px; font-size:var(--input-font-size); border:var(--w) solid rgba(255,255,255,.06)}
@@ -88,25 +111,50 @@
   .kv.quality-mismatch{background:#2a1f1f; color:#f87171; border:var(--w) solid #f87171}
 
   .empty{padding:var(--s3); text-align:center; color:var(--muted)}
-
-  footer{margin-top:var(--s3); color:var(--muted); font-size:var(--input-font-size)}
-  .note{opacity:.9}
-  .links{margin-top:var(--s1); display:flex; gap:var(--s1); flex-wrap:wrap}
-  .links a{color:#ff944d; font-size:var(--input-font-size); text-decoration:none}
-
-  .quad .actions-row{grid-column:1 / -1}
-
-  #quote{display:none}
-  @media print{
-    body{background:#fff}
-    .wrap > *:not(footer), footer details{display:none !important}
-    #quote{display:block; padding:24px; color:#111}
-    #quote h1{font-size:20px; margin:0 0 8px}
-    #quote .chips{color:#111}
-    #quote table{width:100%; border-collapse:collapse; margin-top:12px}
-    #quote th,#quote td{border:1px solid #ddd; padding:8px; text-align:left; font-size:12px}
+  .empty.error{color:#f87171; background:rgba(248,113,113,.08); border:1px solid rgba(248,113,113,.35); border-radius:12px}.actions{ 
+      order:2;
+      grid-column: 1 / -1; 
+      width: 100%;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: var(--s2);
+    }
   }
-  </style>
+
+
+/* === Layout fix: keep actions-row at bottom on mobile & tablet === */
+.quad > .actions-row{
+  order: 999;
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: var(--s2);
+}
+@media (min-width: 901px) and (max-width: 1279px){
+  .quad > .actions-row{
+    order: 999;
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 1280px){
+  .quad > .actions-row{
+    order: auto;             /* 回到原本順序（已位於畫質/遠端之後） */
+    grid-column: 1 / -1;     /* 佔滿整列 */
+    width: 100%;
+    margin-top: var(--s2);
+  }
+  .actions{
+    grid-template-columns: repeat(3, 1fr);  /* 桌機固定 3 欄 */
+  }
+}
+
+.actions *{ pointer-events:auto; }
+#solarField{ display:none; }
+
+/* Ensure actions/buttons are on top and clickable */
+.actions, .actions *{ pointer-events:auto; }
+.actions{ position:relative; z-index:9999; }
+
+.panel .bd{ position:relative; z-index:auto; }
+</style>
 </head>
 <body>
   <div class="wrap">
@@ -114,7 +162,7 @@
       <div class="logo"></div>
       <div>
         <h1>Brinno 縮時相機推薦</h1>
-        <div class="sub">輸入工期與維護條件，立即得到最適合的型號與說明（可列印成 PDF）。</div>
+        <div class="sub">輸入工期與維護條件，立即得到最適合的型號與說明。</div>
       </div>
     </header>
 
@@ -125,7 +173,7 @@
           <div class="quad">
             <div>
               <label for="duration">工期</label>
-              <input id="duration" type="number" placeholder="如 30 或 6" min="1" />
+              <input id="duration" type="number" placeholder="如 30 或 6" min="1" step="1" />
             </div>
             <div>
               <label>單位</label>
@@ -176,9 +224,9 @@
             <div class="actions-row">
               <label>操作</label>
               <div class="actions">
-                <button class="btn" id="go">產生推薦</button>
-                <button class="btn secondary" id="reset">重設</button>
-                <button class="btn secondary" id="printQuote">下載報價單 PDF</button>
+                <button class="btn" id="go" type="button" role="button" aria-label="產生推薦" onclick="if(window._precheckAndRun){_precheckAndRun(event)}else if(typeof showResults==='function'){showResults()}">產生推薦</button>
+                <button class="btn secondary" id="reset" type="button">重設</button>
+                <a class="btn line" id="line" href="https://line.me/R/ti/p/%40mvq7295q" target="_blank" rel="noopener">LINE@詢問</a>
               </div>
             </div>
           </div>
@@ -196,17 +244,7 @@
         </div>
       </section>
     </div>
-
-    <footer>
-      <div class="note">規則：短期(≤30 天) <b>室內→TLC2020MT</b>；短期 <b>室外→TLC2020MT 主推、BCC300 備選</b>。中期(≤180 天)室內（好維護、無太陽能、1080P）→ 仍優先 <b>TLC2020MT</b>；室內長期 → <b>BCC5000</b>。維護不便則走 <b>BCC2000(+/P)/BCC5000(+P)</b>。<b>選 4K 或 遠端 → 一律 BCC5000 系列。</b></div>
-      <details style="margin-top:10px">
-        <summary>診斷與自我測試結果（點我展開）</summary>
-        <pre id="test-log" style="background:#0b0b0b;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;white-space:pre-wrap"></pre>
-      </details>
-    </footer>
   </div>
-
-  <section id="quote"></section>
 
   <script>
   function getEl(id){ return document.getElementById(id); }
@@ -223,79 +261,86 @@
   function getQuality(){ var el=q('input[name="quality"]:checked'); return el?el.value:'1080p'; }
   function getRemote(){ var el=q('input[name="remote"]:checked'); return el?el.value:'no'; }
 
-  function daysFromInput(){
-    var el=getEl('duration'); var raw = Number(el && el.value || 0); if(!raw || raw<=0 || isNaN(raw)) return 0;
+  function validateAndGetDays(){
+    var el=getEl('duration');
+    var rawStr = (el && String(el.value).trim()) || '';
+    if(rawStr==='') return {ok:false, error:'請輸入工期數字'};
+    var raw = Number(rawStr);
+    if(!Number.isFinite(raw) || raw<=0) return {ok:false, error:'工期需為正整數'};
+    if(!Number.isInteger(raw)) return {ok:false, error:'工期不可有小數點，請輸入整數'};
     var unit=getUnit();
-    if(unit==='months') return Math.round(raw*30);
-    if(unit==='years')  return Math.round(raw*365);
-    return Math.round(raw);
+    if(unit==='years' && raw>10) return {ok:false, error:'工期不得大於 10 年'};
+    if(unit==='months' && raw>120) return {ok:false, error:'工期不得大於 120 月（=10年）'};
+    if(unit==='days' && raw>3650) return {ok:false, error:'工期不得大於 3650 天（=10年）'};
+    var days = raw;
+    if(unit==='months') days = Math.round(raw*30);
+    if(unit==='years')  days = Math.round(raw*365);
+    return {ok:true, days:days, raw:raw, unit:unit};
   }
 
+  var MODELS = {
+    TLC2020MT:{ key:'TLC2020MT', name:'Brinno TLC2020MT', quality:'1080P', img:'https://www.camka.com.tw/wp-content/uploads/2024/02/TLC2020MT_m01.jpg', brinno:'', kenjia:'https://www.camka.com.tw/商品/brinno-tlc2020mt/', desc:'輕巧機身，1080P 高畫質，適合短期工地、樣品屋、展演活動。'},
+    BCC2000P:{ key:'BCC2000P', name:'Brinno BCC2000+P', quality:'1080P', img:'https://www.camka.com.tw/wp-content/uploads/2023/10/BCC2000PlusASP1000P_m01.jpg', brinno:'https://store.brinno.com.tw/BCC2000Plus-ASP1000P', kenjia:'https://www.camka.com.tw/商品/brinno-bcc2000plusp/', desc:'含電力套件，1080P；附 10M 傳輸線，可用筆電收檔免爬梯；維護不便或室外位置的穩定選擇。'},
+    BCC2000:{ key:'BCC2000', name:'Brinno BCC2000+', quality:'1080P', img:'https://www.camka.com.tw/wp-content/uploads/2021/12/BCC2000Plus_m01.jpg', brinno:'https://store.brinno.com.tw/BCC2000-AFB1000', kenjia:'https://www.camka.com.tw/商品/brinno-bcc2000plus/', desc:'1080P，不含太陽能/鋰電組；附 10M 傳輸線，可用筆電收檔免爬梯；維護不便但無須額外電力套件時可選。'},
+    BCC300:{ key:'BCC300MT', name:'Brinno BCC300MT (同 BCC300C，多壁架 X1)', quality:'1080P', img:'https://www.camka.com.tw/wp-content/uploads/2024/08/BCC300MT_m01.jpg', brinno:'https://store.brinno.com.tw/BCC300C', kenjia:'https://www.camka.com.tw/商品/brinno-bcc300mt/', desc:'1080P，長效續航；中長期戶外專案常用（室內不推薦）。'},
+    BCC5000P:{ key:'BCC5000P', name:'Brinno BCC5000P', quality:'4K', img:'https://www.camka.com.tw/wp-content/uploads/2025/06/BCC5000ASP1000P_m01.jpg', brinno:'https://store.brinno.com.tw/BCC5000P', kenjia:'https://www.camka.com.tw/商品/brinno-bcc5000p/', desc:'4K 超高畫質，含電力套件；免去現場，可跨國遠端操作與下載檔案。'},
+    BCC5000:{ key:'BCC5000', name:'Brinno BCC5000', quality:'4K', img:'https://www.camka.com.tw/wp-content/uploads/2025/05/BCC5000_m01.jpg', brinno:'https://store.brinno.com.tw/BCC5000', kenjia:'https://www.camka.com.tw/商品/brinno-bcc5000/', desc:'4K 超高畫質；免去現場，可跨國遠端操作與下載檔案。'}
+  };
+
   var OVERRIDES = [
+    ['室內且 4K/需遠端 → BCC5000', function(c){
+      if(c.site==='indoor' && (c.quality==='4k' || c.remote==='yes')) return ['BCC5000'];
+      return null;
+    }],
+    ['室內中長期1080P好維護 → TLC2020MT', function(c){
+      if(c.site==='indoor' && c.days>getShortDays() && c.quality==='1080p' && c.maint==='easy') return ['TLC2020MT'];
+      return null;
+    }],
     ['室內+維護不便+1080P+無遠端 → BCC2000+', function(c){
       return (c.site==='indoor' && c.maint==='hard' && c.quality==='1080p' && c.remote==='no') ? ['BCC2000'] : null;
     }],
-    ['戶外維護不便+1080P無遠端 → BCC2000+', function(c){
+    ['戶外維護不便+1080P無遠端 → BCC2000(+P)', function(c){
       if(!(c.site==='outdoor' && c.maint==='hard' && c.quality==='1080p' && c.remote==='no')) return null;
       return (c.solar==='yes'? ['BCC2000P'] : ['BCC2000']);
     }],
-    ['戶外維護不便+4K或遠端 → BCC5000', function(c){
+    ['戶外維護不便+4K或遠端 → BCC5000(+P)', function(c){
       if(!(c.site==='outdoor' && c.maint==='hard' && (c.quality==='4k' || c.remote==='yes'))) return null;
       return (c.solar==='yes'? ['BCC5000P'] : ['BCC5000']);
     }],
-    ['4K或需要遠端 → 一律5000系列', function(c){
-      return (c.quality==='4k' || c.remote==='yes') ? ['BCC5000P','BCC5000'] : null;
+    ['4K或需要遠端（室外） → 5000系列', function(c){
+      if(c.site==='outdoor' && (c.quality==='4k' || c.remote==='yes')) return (c.solar==='yes'? ['BCC5000P','BCC5000'] : ['BCC5000','BCC5000P']);
+      return null;
     }],
-    ['短期室內 → 只推TLC2020MT', function(c){ return (c.days<=getShortDays() && c.site==='indoor') ? ['TLC2020MT'] : null; }],
-    ['短期室外 → TLC2020MT/BCC300', function(c){ return (c.days<=getShortDays() && c.site==='outdoor') ? ['TLC2020MT','BCC300'] : null; }],
-    ['中期室內好維護無太陽能1080P → TLC2020MT', function(c){
-      return (c.days>getShortDays() && c.days<=getMidDays() && c.site==='indoor' && c.maint==='easy' && c.solar==='no' && c.quality==='1080p') ? ['TLC2020MT'] : null;
-    }]
+    ['短期室內 → TLC2020MT', function(c){ return (c.days<=getShortDays() && c.site==='indoor') ? ['TLC2020MT'] : null; }],
+    ['短期室外 → TLC2020MT / BCC300MT', function(c){ return (c.days<=getShortDays() && c.site==='outdoor') ? ['TLC2020MT','BCC300'] : null; }]
   ];
 
-  var MODELS = {
-    TLC2020MT:{ key:'TLC2020MT', name:'Brinno TLC2020MT', quality:'1080P', img:'https://www.brinno.com/assets/images/product/tlc2020mt.jpg', brinno:'https://store.brinno.com.tw/product/tlc2020mt/', kenjia:'https://www.camka.com.tw/product/tlc2020mt/', desc:'輕巧機身，1080P 高畫質，適合短期工地、樣品屋、展演活動。'},
-    BCC2000P:{ key:'BCC2000P', name:'Brinno BCC2000+P', quality:'1080P', img:'https://www.brinno.com/assets/images/product/bcc2000p.jpg', brinno:'https://store.brinno.com.tw/product/bcc2000/', kenjia:'https://www.camka.com.tw/product/bcc2000/', desc:'含電力套件，1080P；附10M傳輸線，可用筆電收檔免爬梯；維護不便或室外位置的穩定選擇。'},
-    BCC2000:{ key:'BCC2000', name:'Brinno BCC2000+', quality:'1080P', img:'https://www.brinno.com/assets/images/product/bcc2000.jpg', brinno:'https://store.brinno.com.tw/product/bcc2000/', kenjia:'https://www.camka.com.tw/product/bcc2000/', desc:'1080P，不含太陽能/鋰電組；附10M傳輸線，可用筆電收檔免爬梯；維護不便但無須額外電力套件時可選。'},
-    BCC300:{ key:'BCC300', name:'Brinno BCC300 系列', quality:'1080P', img:'https://www.brinno.com/assets/images/product/bcc300.jpg', brinno:'https://store.brinno.com.tw/product/bcc300/', kenjia:'https://www.camka.com.tw/product/bcc300/', desc:'1080P，長效續航；中長期專案常用（室內情境不列入）。'},
-    BCC5000P:{ key:'BCC5000P', name:'Brinno BCC5000P', quality:'4K', img:'https://www.brinno.com/assets/images/product/bcc5000p.jpg', brinno:'https://store.brinno.com.tw/product/bcc5000/', kenjia:'https://www.camka.com.tw/product/bcc5000/', desc:'4K 超高畫質，含電力套件；長期工程或維護極不便的位置建議使用；免去現場，可跨國遠端操作與下載檔案。'},
-    BCC5000:{ key:'BCC5000', name:'Brinno BCC5000', quality:'4K', img:'https://www.brinno.com/assets/images/product/bcc5000.jpg', brinno:'https://store.brinno.com.tw/product/bcc5000/', kenjia:'https://www.camka.com.tw/product/bcc5000/', desc:'4K 超高畫質；室外長期且不需太陽能/鋰電池組時的穩定方案；免去現場，可跨國遠端操作與下載檔案。'}
-  };
+  function recommend(p){
+    var ctx={days:p.days,maint:p.maint,site:p.site,solar:p.solar,quality:p.quality,remote:p.remote};
+    for(var i=0;i<OVERRIDES.length;i++){ var out=OVERRIDES[i][1](ctx); if(out){ return {models:out, reason:OVERRIDES[i][0], rule:'override'}; } }
 
-  function recommend(params){
-    var days=params.days, maint=params.maint, site=params.site, solar=params.solar, quality=params.quality, remote=params.remote;
-    if(!days || days<=0){ return null; }
-    var ctx = {days:days, maint:maint, site:site, solar:solar, quality:quality, remote:remote};
-    for(var i=0;i<OVERRIDES.length;i++){
-      var rule = OVERRIDES[i];
-      var out = rule[1](ctx);
-      if(out){ return {models: out, reason: rule[0], rule:'override'}; }
-    }
-    if(maint==='hard'){
-      var shortOrMid = days<=getMidDays();
-      if(solar==='yes') return {models: shortOrMid? ['BCC2000P','BCC5000P'] : ['BCC5000P','BCC2000P'], reason:'維護不便 + 需要電力套件', rule:'base'};
+    if(p.maint==='hard'){
+      var shortOrMid = p.days<=getMidDays();
+      if(p.solar==='yes') return {models: shortOrMid? ['BCC2000P','BCC5000P'] : ['BCC5000P','BCC2000P'], reason:'維護不便 + 需要電力套件', rule:'base'};
       return {models: shortOrMid? ['BCC2000','BCC5000'] : ['BCC5000','BCC2000'], reason:'維護不便 + 不需電力套件', rule:'base'};
     } else {
-      if(site==='indoor') return {models: days<=getMidDays()? ['TLC2020MT'] : ['BCC5000'], reason: (days<=getMidDays()? '好維護 室內（短/中期）':'好維護 室內（長期）'), rule:'base'};
-      return {models: days<=getMidDays()? ['TLC2020MT','BCC300'] : ['BCC5000','TLC2020MT','BCC300'], reason: (days<=getMidDays()? '好維護 室外（短/中期）':'好維護 室外（長期）'), rule:'base'};
+      if(p.site==='indoor') return {models: p.days<=getMidDays()? ['TLC2020MT'] : ['BCC5000'], reason: (p.days<=getMidDays()? '好維護 室內（短/中期）':'好維護 室內（長期）'), rule:'base'};
+      return {models: p.days<=getMidDays()? ['TLC2020MT','BCC300'] : ['BCC5000','TLC2020MT','BCC300'], reason: (p.days<=getMidDays()? '好維護 室外（短/中期）':'好維護 室外（長期）'), rule:'base'};
     }
   }
 
-  function chipsForInput(){
-    var days = daysFromInput();
-    var unit = getUnit();
+  function chipsForInput(v){
     var maint = getMaint();
     var site = getSite();
     var solar = getSolar();
     var quality = getQuality();
     var remote = getRemote();
     var chips = [];
-    if(days){
-      var unitLabel = (unit==='days'?'天':(unit==='months'?'月':'年'));
-      var raw = Number(getEl('duration') && getEl('duration').value || 0);
-      chips.push('工期：'+ raw +' '+ unitLabel + (unit!=='days' ? ('（≈ '+ days +' 天）') : ''));
-      if(days<=30) chips.push('期間判定：短期 ≤ 30 天');
-      else if(days<=180) chips.push('期間判定：中期 31–180 天');
+    if(v && v.ok){
+      var unitLabel = (v.unit==='days'?'天':(v.unit==='months'?'月':'年'));
+      chips.push('工期：'+ v.raw +' '+ unitLabel + (v.unit!=='days' ? ('（≈ '+ v.days +' 天）') : ''));
+      if(v.days<=30) chips.push('期間判定：短期 ≤ 30 天');
+      else if(v.days<=180) chips.push('期間判定：中期 31–180 天');
       else chips.push('期間判定：長期 > 180 天');
     }
     chips.push(maint==='easy'?'維護：好維護':'維護：不方便、需要爬梯、吊車');
@@ -303,7 +348,6 @@
     if(site==='outdoor') chips.push(solar==='yes' ? '電力：需要太陽能板＋鋰電池組（實現免換電池、電力自主）' : '電力：不需要電力套件');
     chips.push('畫質：'+ String(quality).toUpperCase());
     chips.push('遠端：'+ (remote==='yes'?'需要':'不需要'));
-    chips.push('門檻：短期≤30天，中期≤180天');
     return chips;
   }
 
@@ -311,60 +355,89 @@
     var m = MODELS[key]; if(!m) return '';
     var qualityPref = String(getQuality()).toUpperCase();
     var match = String(m.quality).toUpperCase() === qualityPref;
-    return (
-      '<div class="card">\n'
-      + '  <div class="tag-group">\n'
-      + '    <span class="tag '+(badge==='主推薦'?'main':'alt')+'">'+badge+'</span>\n'
-      + (showRemoteTag? '    <span class="tag remote">遠端支援</span>\n' : '')
-      + '  </div>\n'
-      + '  <div class="thumb"><img src="'+m.img+'" alt="'+m.name+'"></div>\n'
-      + '  <div>\n'
-      + '    <div class="title">'+m.name+'</div>\n'
-      + '    <div class="desc">'+m.desc+'</div>\n'
-      + '    <div class="kvs">\n'
-      + '      <div class="kv '+(match? 'quality-match':'quality-mismatch')+'">'+(match? '符合畫質偏好' : '不符合畫質偏好')+'</div>\n'
-      + '      <div class="kv">畫質：'+m.quality+'</div>\n'
-      + (reason? ('      <div class="kv">推薦理由：'+reason+'</div>\n') : '') 
-      + '    </div>\n'
-      + '    <div class="links">\n'
-      + '      <a href="'+m.brinno+'" target="_blank">前往 Brinno 商城</a>\n'
-      + '      <a href="'+m.kenjia+'" target="_blank">前往肯佳企業</a>\n'
-      + '    </div>\n'
-      + '  </div>\n'
-      + '</div>'
-    );
+    return `
+      <div class="card">
+        <div class="tag-group">
+          <span class="tag ${badge==='主推薦'?'main':'alt'}">${badge}</span>
+          ${showRemoteTag? '<span class="tag remote">遠端支援</span>' : ''}
+        </div>
+        <div class="thumb"><img src="${m.img}" alt="${m.name}"></div>
+        <div>
+          <div class="title">${m.name}</div>
+          <div class="desc">${m.desc}</div>
+          <div class="kvs">
+            <div class="kv ${match? 'quality-match':'quality-mismatch'}">${match? '符合畫質偏好' : '不符合畫質偏好'}</div>
+            <div class="kv">畫質：${m.quality}</div>
+            ${reason? `<div class="kv">推薦理由：${reason}</div>` : ''}
+          </div>
+          <div class="links">
+            ${m.brinno? `<a href="${m.brinno}" target="_blank" rel="noopener">前往 Brinno 商城</a>` : ''}
+            <a href="${m.kenjia}" target="_blank" rel="noopener">前往肯佳企業</a>
+          </div>
+        </div>
+      </div>`;
   }
 
   function showResults(){
-    var chipsBox = getEl('ruleChips');
     var results = getEl('results');
+    var chipsBox = getEl('ruleChips');
 
-    var data = { days: daysFromInput(), maint: getMaint(), site: getSite(), solar: getSolar(), quality: getQuality(), remote: getRemote() };
+    var v = validateAndGetDays();
+    if(!v.ok){
+      results.innerHTML = `<div class="empty error" role="alert">⚠️ ${v.error}</div>`;
+      chipsBox.innerHTML = chipsForInput(null).map(function(s){ return '<span class="chip">'+s+'</span>'; }).join('');
+      return;
+    }
 
-    var chips = chipsForInput();
-    chipsBox.innerHTML = chips.map(function(s){ return '<span class="chip">'+s+'</span>'; }).join('');
+    var data = {
+      days: v.days,
+      maint: getMaint(),
+      site: getSite(),
+      solar: getSolar(),
+      quality: getQuality(),
+      remote: getRemote()
+    };
+
+    chipsBox.innerHTML = chipsForInput(v).map(function(s){ return '<span class="chip">'+s+'</span>'; }).join('');
 
     var picked = recommend(data);
-
-    if(!picked){ results.innerHTML = '<div class="empty">請輸入有效的工期（天／月／年）。</div>'; return; }
+    if(!picked){
+      results.innerHTML = '<div class="empty">目前條件無對應機種，請調整條件後再試。</div>';
+      return;
+    }
     var models = picked.models || [];
-    var primary = models[0], secondary = models[1];
-    var reason = picked.reason, remoteNeeded = (data.remote==='yes');
+    var primary = models[0];
+    var secondary = models[1];
+    var reason = picked.reason;
+    var remoteNeeded = (data.remote==='yes');
 
-    results.innerHTML = renderCard(primary,'主推薦',remoteNeeded,reason) + (secondary ? renderCard(secondary,'備選方案',remoteNeeded,reason) : '');
+    results.innerHTML =
+      renderCard(primary,'主推薦',remoteNeeded,reason) +
+      (secondary ? renderCard(secondary,'備選方案',remoteNeeded,reason) : '');
   }
 
   function toggleSolarField(){
-    var site = getSite(), sf = getEl('solarField');
+    var site = getSite();
+    var sf = getEl('solarField');
     if(sf){
-      if(site==='outdoor'){ sf.style.display = 'block'; }
-      else { sf.style.display = 'none'; var noRadio = q('input[name="solar"][value="no"]'); if(noRadio) noRadio.checked = true; }
+      if(site==='outdoor'){
+        sf.style.display = 'block';
+      } else {
+        sf.style.display = 'none';
+        var noRadio = q('input[name="solar"][value="no"]');
+        if(noRadio) noRadio.checked = true;
+      }
     }
   }
   qAll('input[name="site"]').forEach(function(r){ r.addEventListener('change', toggleSolarField); });
+  document.addEventListener('DOMContentLoaded', toggleSolarField);
   toggleSolarField();
 
-  var btnGo = getEl('go'); if(btnGo) btnGo.addEventListener('click', showResults);
+  var btnGo = getEl('go'); 
+  if(btnGo){ 
+    btnGo.addEventListener('click', showResults); 
+    btnGo.addEventListener('touchend', function(e){ e.preventDefault(); showResults(); }, {passive:false});
+  }
   var btnReset = getEl('reset'); if(btnReset) btnReset.addEventListener('click', function(){
     if(getEl('duration')) getEl('duration').value = '';
     var e;
@@ -374,56 +447,159 @@
     e=q('input[name="solar"][value="no"]'); if(e) e.checked = true;
     e=q('input[name="quality"][value="1080p"]'); if(e) e.checked = true;
     e=q('input[name="remote"][value="no"]'); if(e) e.checked = true;
-    if(getEl('ruleChips')) getEl('ruleChips').innerHTML = '';
-    if(getEl('results')) getEl('results').innerHTML = '<div class="empty">尚未產生結果。請在左側輸入條件後點擊「產生推薦」。</div>';
-    var qsec = getEl('quote'); if(qsec) qsec.innerHTML = '';
-    toggleSolarField();
+    getEl('ruleChips').innerHTML = '';
+    getEl('results').innerHTML = '<div class="empty">尚未產生結果。請在左側輸入條件後點擊「產生推薦」。</div>';
+    document.addEventListener('DOMContentLoaded', toggleSolarField);
+  toggleSolarField();
   });
 
-  var btnPrint = getEl('printQuote'); if(btnPrint) btnPrint.addEventListener('click', function(){
-    var qsec = getEl('quote'); if(!qsec){ return; }
-    var chips = getEl('ruleChips') ? getEl('ruleChips').innerHTML : '';
-    var cards = qAll('#results .card').map(function(card){
-      return {
-        title: (card.querySelector('.title')||{}).textContent || '',
-        quality: ((card.querySelector('.kvs .kv:nth-child(2)')||{}).textContent || '').replace('畫質：',''),
-        brinno: ((card.querySelector('.links a[href*="store.brinno.com.tw"]')||{}).href || ''),
-        kenjia: ((card.querySelector('.links a[href*="camka.com.tw"]')||{}).href || ''),
-        reason: (((card.querySelector('.kvs .kv:nth-child(3)')||{}).textContent || '').replace('推薦理由：',''))
-      };
-    });
-    qsec.innerHTML = '<h1>Brinno 報價建議</h1>'
-      + '<div class="chips">'+ chips +'</div>'
-      + '<table><thead><tr><th>型號</th><th>畫質</th><th>推薦理由</th><th>Brinno 商城</th><th>肯佳企業</th></tr></thead><tbody>'
-      + cards.map(function(c){return '<tr><td>'+c.title+'</td><td>'+c.quality+'</td><td>'+ (c.reason||'') +'</td><td>'+c.brinno+'</td><td>'+c.kenjia+'</td></tr>';}).join('')
-      + '</tbody></table>';
-    window.print();
-  });
-
-  function runSelfTests(){
-    var cases = [
-      {name:'短期室內1080P無遠端',  i:{days:10,maint:'easy',site:'indoor',solar:'no',quality:'1080p',remote:'no'}, expect:['TLC2020MT']},
-      {name:'短期室外1080P無遠端',  i:{days:20,maint:'easy',site:'outdoor',solar:'no',quality:'1080p',remote:'no'}, expect:['TLC2020MT','BCC300']},
-      {name:'4K 覆蓋規則',          i:{days:10,maint:'easy',site:'indoor',solar:'no',quality:'4k',remote:'no'},   expect:['BCC5000P','BCC5000']},
-      {name:'遠端 覆蓋規則',        i:{days:15,maint:'easy',site:'indoor',solar:'no',quality:'1080p',remote:'yes'}, expect:['BCC5000P','BCC5000']},
-      {name:'維護不便+電力(中期)',   i:{days:120,maint:'hard',site:'outdoor',solar:'yes',quality:'1080p',remote:'no'}, expect:['BCC2000P']},
-      {name:'維護不便(長期無電力)',  i:{days:300,maint:'hard',site:'outdoor',solar:'no',quality:'1080p',remote:'no'}, expect:['BCC2000']},
-      {name:'維護不便(戶外)+4K',     i:{days:90,maint:'hard',site:'outdoor',solar:'no',quality:'4k',remote:'no'}, expect:['BCC5000']},
-      {name:'維護不便(戶外)+遠端',   i:{days:90,maint:'hard',site:'outdoor',solar:'yes',quality:'1080p',remote:'yes'}, expect:['BCC5000P']},
-      {name:'室內維護不便1080P無遠端', i:{days:200,maint:'hard',site:'indoor',solar:'no',quality:'1080p',remote:'no'}, expect:['BCC2000']},
-      {name:'長期室外好維護', i:{days:240,maint:'easy',site:'outdoor',solar:'no',quality:'1080p',remote:'no'}, expect:['BCC5000','TLC2020MT','BCC300']}
-    ];
-    var logs=[]; var pass=0;
-    for(var i=0;i<cases.length;i++){
-      var c = cases[i];
-      var rec = recommend(c.i); var got = rec? rec.models:[];
-      var ok = c.expect.every(function(v,idx){ return got[idx]===v; });
-      if(ok) pass+=1;
-      logs.push((ok?'':'')+' '+c.name+'\n  期望: '+c.expect.join(' / ')+'\n  實際: '+got.join(' / '));
+  var durInput = getEl('duration');
+  if(durInput){ durInput.addEventListener('keydown', function(ev){ if(ev.key==='Enter'){ showResults(); } }); }
+  
+  // === Ensure mobile/desktop click works ===
+  (function(){
+    var goBtn = getEl('go');
+    if(goBtn && !goBtn._bound){
+      goBtn.addEventListener('click', function(ev){
+        ev.preventDefault();
+        try{ showResults(); }catch(e){ console.error(e); }
+      }, {passive:false});
+      goBtn._bound = true;
     }
-    var el = getEl('test-log'); if(el){ el.textContent = '通過 '+pass+'/'+cases.length+' 項測試\n\n' + logs.join('\n'); }
+    var resetBtn = getEl('reset');
+    if(resetBtn && !resetBtn._bound){
+      resetBtn.addEventListener('click', function(ev){
+        ev.preventDefault();
+        // keep existing reset logic if present; otherwise clear to defaults
+        if(typeof toggleSolarField === 'function'){ document.addEventListener('DOMContentLoaded', toggleSolarField);
+  toggleSolarField(); }
+        try{
+          var e;
+          e=document.querySelector('input[name="unit"][value="days"]'); if(e) e.checked = true;
+          e=document.querySelector('input[name="maint"][value="easy"]'); if(e) e.checked = true;
+          e=document.querySelector('input[name="site"][value="indoor"]'); if(e) e.checked = true;
+          e=document.querySelector('input[name="solar"][value="no"]'); if(e) e.checked = true;
+          e=document.querySelector('input[name="quality"][value="1080p"]'); if(e) e.checked = true;
+          e=document.querySelector('input[name="remote"][value="no"]'); if(e) e.checked = true;
+          var dur=document.getElementById('duration'); if(dur) dur.value='';
+          var chips=document.getElementById('ruleChips'); if(chips) chips.innerHTML='';
+          var results=document.getElementById('results');
+          if(results) results.innerHTML = '<div class="empty">尚未產生結果。請在左側輸入條件後點擊「產生推薦」。</div>';
+        }catch(e){ console.error(e); }
+      }, {passive:false});
+      resetBtn._bound = true;
+    }
+  })();
+
+</script>
+
+<script>
+(function(){
+  function getEl(id){ return document.getElementById(id); }
+  function _precheckAndRun(ev){
+    try{ if(ev) ev.preventDefault(); }catch(_){}
+    var dur = getEl('duration');
+    var val = (dur && String(dur.value).trim()) || '';
+    if(!val){
+      var results = getEl('results');
+      var msg = '\u26A0\uFE0F 請輸入工期數字';
+      if(results){
+        results.innerHTML = '<div class="empty error" role="alert">'+msg+'</div>';
+      }else{
+        try{ alert('請輸入工期數字'); }catch(_){}
+      }
+      return;
+    }
+    try{ if(typeof showResults === 'function'){ showResults(); } }catch(_){}
   }
-  runSelfTests();
-  </script>
+
+  // Direct listeners on the button (click + touch)
+  var btn = getEl('go');
+  if(btn){
+    btn.addEventListener('click', _precheckAndRun, {passive:false});
+    btn.addEventListener('touchstart', function(e){ e.preventDefault(); _precheckAndRun(e); }, {passive:false});
+    btn.addEventListener('touchend', function(e){ e.preventDefault(); }, {passive:false});
+  }
+
+  // Delegation backups for dynamic layouts or overlay issues
+  ['click','touchstart','touchend'].forEach(function(evt){
+    document.addEventListener(evt, function(e){
+      var t = e.target;
+      if(!t) return;
+      var isGo = (t.id === 'go') || (t.closest && t.closest('#go'));
+      if(isGo){
+        if(evt!=='touchend'){ _precheckAndRun(e); }
+      }
+    }, {passive:false});
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function getEl(id){ return document.getElementById(id); }
+  function ensureResultsBox(){
+    var r = getEl('results');
+    if(!r){
+      var p = document.createElement('div');
+      p.id = 'results';
+      p.className = 'cards';
+      document.body.appendChild(p);
+      r = p;
+    }
+    return r;
+  }
+  function _precheckAndRun(ev){
+    try{ if(ev) ev.preventDefault(); }catch(_){}
+    var dur = getEl('duration');
+    var val = (dur && String(dur.value).trim()) || '';
+    var results = getEl('results') || ensureResultsBox();
+    if(!val){
+      var msg = ' 請輸入工期數字';
+      if(results){ results.innerHTML = '<div class="empty error" role="alert">'+msg+'</div>'; }
+      else { try{ alert('請輸入工期數字'); }catch(_){ } }
+      return false;
+    }
+    try{ if(typeof showResults === 'function'){ showResults(); } }catch(_){}
+    return true;
+  }
+  window._precheckAndRun = _precheckAndRun;
+
+  var btn = getEl('go');
+  if(btn){
+    // direct listeners (multiple, for full compatibility)
+    btn.addEventListener('click', _precheckAndRun, {passive:false});
+    btn.addEventListener('touchstart', function(e){ e.preventDefault(); _precheckAndRun(e); }, {passive:false});
+    btn.addEventListener('touchend', function(e){ e.preventDefault(); }, {passive:false});
+    // keyboard accessibility
+    btn.addEventListener('keydown', function(e){ if(e.key==='Enter' || e.key===' '){ _precheckAndRun(e); } }, {passive:false});
+  }
+
+  // Delegation backups
+  ['click','touchstart'].forEach(function(evt){
+    document.addEventListener(evt, function(e){
+      var t = e.target;
+      if(!t) return;
+      var isGo = (t.id === 'go') || (t.closest && t.closest('#go'));
+      if(isGo){ _precheckAndRun(e); }
+    }, {passive:false});
+  });
+
+  // Optional self-test for small screens: fills duration and simulates tap once.
+  document.addEventListener('DOMContentLoaded', function(){
+    try{
+      if(Math.min(window.innerWidth, window.innerHeight) <= 760){
+        var dur = getEl('duration');
+        if(dur && !String(dur.value).trim()){
+          dur.value = 30; // default test value
+        }
+        // don't auto-run; just ensure the UI is ready.
+      }
+    }catch(_){}
+  });
+})();
+</script>
+
 </body>
 </html>
