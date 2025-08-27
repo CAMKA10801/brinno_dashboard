@@ -156,10 +156,19 @@
 .panel .bd{ position:relative; z-index:auto; }
 
   
+
+
 .links{ display:flex; gap:var(--s1); margin-top:var(--s2); }
+.links .btn{ flex:1; text-align:center; height:56px; } /* 桌機/平板/手機一致高度 */
 @media (max-width: 760px){
   .links{ flex-direction:column; }
   .links .btn{ width:100%; }
+}
+
+  .links .btn{ width:100%; height:56px; } /* 保持一致高度 */
+}
+.links .btn{ flex:1; text-align:center; height:56px; }
+
 }
 .links .btn{ flex:1; text-align:center; }
 
@@ -392,7 +401,7 @@
             <div class="kv">畫質：${m.quality}</div>
             ${reason? `<div class="kv">推薦理由：${reason}</div>` : ''}
           </div>
-          <div class="links">${m.brinno ? `<a class="btn brinno" href="${m.brinno}" target="_blank" rel="noopener">前往 Brinno 商城</a>` : ""}<a class="btn kenjia" href="${m.kenjia}" target="_blank" rel="noopener">前往肯佳企業</a></div>
+          <div class="links">${m.brinno ? `<a class="btn brinno" href="${m.brinno}" target="_blank" rel="noopener">Brinno 商城</a>` : ""}<a class="btn kenjia" href="${m.kenjia}" target="_blank" rel="noopener">肯佳企業</a></div>
         </div>
       </div>`;
   }
