@@ -154,6 +154,28 @@
 .actions{ position:relative; z-index:9999; }
 
 .panel .bd{ position:relative; z-index:auto; }
+
+  
+.links{ display:flex; gap:var(--s1); margin-top:var(--s2); }
+@media (max-width: 760px){
+  .links{ flex-direction:column; }
+  .links .btn{ width:100%; }
+}
+.links .btn{ flex:1; text-align:center; }
+
+
+/* === Custom Brand Buttons === */
+.btn.brinno {
+  background: linear-gradient(135deg, #ff6600, #ffaa33);
+  color: #fff;
+  border: none;
+}
+.btn.kenjia {
+  background: #fff;
+  color: #000;
+  border: 2px solid #000;
+}
+
 </style>
 </head>
 <body>
@@ -370,10 +392,7 @@
             <div class="kv">畫質：${m.quality}</div>
             ${reason? `<div class="kv">推薦理由：${reason}</div>` : ''}
           </div>
-          <div class="links">
-            ${m.brinno? `<a href="${m.brinno}" target="_blank" rel="noopener">前往 Brinno 商城</a>` : ''}
-            <a href="${m.kenjia}" target="_blank" rel="noopener">前往肯佳企業</a>
-          </div>
+          <div class="links">${m.brinno ? `<a class="btn brinno" href="${m.brinno}" target="_blank" rel="noopener">前往 Brinno 商城</a>` : ""}<a class="btn kenjia" href="${m.kenjia}" target="_blank" rel="noopener">前往肯佳企業</a></div>
         </div>
       </div>`;
   }
