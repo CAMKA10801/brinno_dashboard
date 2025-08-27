@@ -158,10 +158,14 @@
   
 
 
+
 .links{ display:flex; gap:var(--s1); margin-top:var(--s2); }
-.links .btn{ flex:1; text-align:center; height:56px; } /* 桌機/平板/手機一致高度 */
+.links .btn{ flex:1; text-align:center; height:56px !important; line-height:56px; } /* 強制一致高度 */
 @media (max-width: 760px){
   .links{ flex-direction:column; }
+  .links .btn{ width:100%; height:56px !important; line-height:56px; }
+}
+
   .links .btn{ width:100%; }
 }
 
@@ -183,6 +187,17 @@
   background: #fff;
   color: #000;
   border: 2px solid #000;
+}
+
+
+/* Hover effects */
+.btn.brinno:hover {
+  background: linear-gradient(135deg, #e65c00, #ff9900);
+  color: #fff;
+}
+.btn.kenjia:hover {
+  background: #000;
+  color: #fff;
 }
 
 </style>
